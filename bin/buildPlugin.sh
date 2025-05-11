@@ -2,7 +2,7 @@
 
 # Variables for paths
 PLUGIN_NAME="terraform-provider-ibmverify"
-PLUGIN_VERSION="1.0.0"
+PLUGIN_VERSION="0.0.1"
 PLUGIN_OS_ARCH="darwin_amd64"
 PLUGIN_LOCAL_PATH="compiled_package/$PLUGIN_NAME"
 PLUGIN_INSTALL_DIR="$HOME/.terraform.d/plugins/registry.terraform.io/local/ibmverify/$PLUGIN_VERSION/$PLUGIN_OS_ARCH"

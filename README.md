@@ -32,7 +32,7 @@ The IBM Verify Terraform Provider allows you to manage **OIDC applications** and
 
 ## Requirements
 
-- **Terraform**: `>= 1.0.0`
+- **Terraform**: `>= 0.0.1`
 - **Go**: `>= 1.20`
 - **IBM Verify Tenant**: A valid IBM Verify tenant URL.
 - **Service Credentials**: Client ID and Client Secret for authentication.
@@ -147,7 +147,7 @@ terraform {
   required_providers {
     ibmverify = {
       source  = "IBM-Verify/ibmverify"
-      version = "1.0.0"
+      version = "0.0.1"
     }
   }
 }

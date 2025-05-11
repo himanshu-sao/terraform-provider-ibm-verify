@@ -2,7 +2,7 @@ terraform {
   required_providers {
     ibmverify = {
       source  = "registry.terraform.io/local/ibmverify"
-      version = "1.0.0"
+      version = "0.0.1"
     }
     time = {
       source = "hashicorp/time"

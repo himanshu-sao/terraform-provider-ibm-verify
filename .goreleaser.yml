@@ -1,0 +1,32 @@
+project_name: terraform-provider-ibmverify
+
+builds:
+- binary: terraform-provider-ibmverify
+  goos:
+  - linux
+  - darwin
+  - windows
+  goarch:
+  - amd64
+  - arm64
+  env:
+  - CGO_ENABLED=0
+
+archives:
+- format: zip
+  files:
+  - LICENSE
+  - README.md
+  - CHANGELOG.md
+  - versions.tf
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+
+release:
+  github:
+    owner: himanshusao
+    name: terraform-provider-ibmverify

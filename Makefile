@@ -1,6 +1,6 @@
 # Variables
 PLUGIN_NAME := terraform-provider-ibm-verify
-PLUGIN_VERSION := 1.0.0
+PLUGIN_VERSION := 0.0.1
 BUILD_DIR := ./compiled_package
 CMD_DIR := ./cmd
 BIN_DIR := ./bin
