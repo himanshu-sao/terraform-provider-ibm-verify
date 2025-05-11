@@ -1,0 +1,9 @@
+go.mod
+main.tf
+secrets.tfvars
+terraform.tfstate
+.terraform.lock.hcl
+/.terraform
+compiled_package/terraform-provider-ibm-verify
+terraform.tfstate.backup
+/compiled_package
