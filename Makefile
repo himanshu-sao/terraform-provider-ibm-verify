@@ -5,12 +5,12 @@ BUILD_DIR := ./compiled_package
 OUTPUT_DIR := .
 CMD_DIR := ./cmd
 BIN_DIR := ./bin
-OS_ARCHS := darwin_amd64 darwin_arm64 linux_amd64
+OS_ARCHS := darwin_amd64 darwin_arm64 linux_amd64 linux_386 linux_arm linux_arm64 windows_amd64 windows_386
 PLUGIN_INSTALL_DIR := $(HOME)/.terraform.d/plugins/registry.terraform.io/local/ibmverify/$(PLUGIN_VERSION)/$(OS_ARCH)
 
 # Default target
 .PHONY: all
-all: clean check build package
+all: clean check build package checksums
 
 # Check code formatting and vet issues
 .PHONY: check
@@ -31,7 +31,13 @@ build: check
 	@echo "Building the plugin for all platforms..."
 	@mkdir -p $(BUILD_DIR)
 	@for os_arch in $(OS_ARCHS); do \
-		GOOS=$${os_arch%_*} GOARCH=$${os_arch#*_} go build -o $(BUILD_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch $(CMD_DIR); \
+		OS=$${os_arch%_*}; \
+		ARCH=$${os_arch#*_}; \
+		echo "Building for $$OS/$$ARCH..."; \
+		GOOS=$$OS GOARCH=$$ARCH go build -o $(BUILD_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch $(CMD_DIR); \
+		if [ "$$OS" = "windows" ]; then \
+			mv $(BUILD_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch $(BUILD_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch.exe; \
+		fi; \
 	done
 
 # Package the plugin for distribution
@@ -39,12 +45,26 @@ build: check
 package: build
 	@echo "Packaging the plugin for distribution..."
 	@for os_arch in $(OS_ARCHS); do \
-		cp $(BUILD_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch $(OUTPUT_DIR)/; \
-		zip -j $(OUTPUT_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch.zip $(OUTPUT_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch; \
+		OS=$${os_arch%_*}; \
+		if [ "$$OS" = "windows" ]; then \
+			cp $(BUILD_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch.exe $(OUTPUT_DIR)/; \
+			zip -j $(OUTPUT_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch.zip $(OUTPUT_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch.exe; \
+		else \
+			cp $(BUILD_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch $(OUTPUT_DIR)/; \
+			zip -j $(OUTPUT_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch.zip $(OUTPUT_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_$$os_arch; \
+		fi; \
 	done
 	@echo "Packaging completed!"
 	@echo "Plugin files are located in $(OUTPUT_DIR)"
 
+# Generate checksums
+.PHONY: checksums
+checksums:
+	@echo "Generating SHA256 checksums..."
+	@cd $(OUTPUT_DIR) && shasum -a 256 $(PLUGIN_NAME)_$(PLUGIN_VERSION)_*.zip > $(PLUGIN_NAME)_$(PLUGIN_VERSION)_SHA256SUMS
+	@echo "Checksums file created at $(OUTPUT_DIR)/$(PLUGIN_NAME)_$(PLUGIN_VERSION)_SHA256SUMS"
+	@echo "Don't forget to sign the checksums file with:"
+	@echo "cd $(OUTPUT_DIR) && gpg --detach-sign $(PLUGIN_NAME)_$(PLUGIN_VERSION)_SHA256SUMS"
 
 # Run tests
 .PHONY: test
@@ -68,5 +88,5 @@ validate: install
 
 # Full pipeline: clean, build, test, package, and validate
 .PHONY: pipeline
-pipeline: clean build test package validate
+pipeline: clean build test package checksums validate
 	@echo "Pipeline completed successfully!"

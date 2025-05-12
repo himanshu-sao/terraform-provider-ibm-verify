@@ -7,3 +7,5 @@ terraform.tfstate
 compiled_package/terraform-provider-ibm-verify
 terraform.tfstate.backup
 /compiled_package
+*.zip
+terraform-provider-ibmverify_*
