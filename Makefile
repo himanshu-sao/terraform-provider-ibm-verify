@@ -1,7 +1,8 @@
 # Variables
 PLUGIN_NAME := terraform-provider-ibmverify
-PLUGIN_VERSION := 0.0.1
+PLUGIN_VERSION := $(or $(VERSION), 0.0.1)
 BUILD_DIR := ./compiled_package
+ARTIFACTS_DIR := ./artifacts
 OUTPUT_DIR := .
 CMD_DIR := ./cmd
 BIN_DIR := ./bin
@@ -24,6 +25,7 @@ clean:
 	@echo "Cleaning up old builds and artifacts..."
 	rm -rf $(BUILD_DIR)/*
 	rm -rf $(OUTPUT_DIR)/$(PLUGIN_NAME)*
+	rm -rf ${ARTIFACTS_DIR}/$(PLUGIN_NAME)*
 
 # Build the plugin for all platforms
 .PHONY: build
