@@ -1,10 +1,10 @@
 terraform {
-  required_providers {
-    ibmverify = {
-      source  = "registry.terraform.io/local/ibmverify"
-      version = "1.0.0"
-    }
-  }
+  #required_providers {
+  #  ibmverify = {
+  #    source  = "registry.terraform.io/local/ibmverify"
+  #    version = "1.0.0"
+  #  }
+  #}
 }
 
 # Variables

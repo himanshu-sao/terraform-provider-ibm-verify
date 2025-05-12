@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     ibmverify = {
-      source  = "himanshusao/ibmverify"
+      #source  = "registry.terraform.io/himanshusao/ibmverify"
+      source = "registry.terraform.io/local/ibmverify"
       version = ">= 0.0.1"
     }
   }

@@ -3,7 +3,7 @@
 
 provider "registry.terraform.io/local/ibmverify" {
   version     = "1.0.0"
-  constraints = "1.0.0"
+  constraints = ">= 0.0.1"
   hashes = [
     "h1:FZGPI/ZSdj/O1LCMXqJFRaZBfeliMrabtp8L5IRgPDo=",
   ]

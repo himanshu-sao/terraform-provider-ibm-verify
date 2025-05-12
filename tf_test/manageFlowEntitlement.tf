@@ -1,13 +1,13 @@
 terraform {
-  required_providers {
-    ibmverify = {
-      source  = "registry.terraform.io/local/ibmverify"
-      version = "0.0.1"
-    }
-    time = {
-      source = "hashicorp/time"
-    }
-  }
+  #required_providers {
+  #  ibmverify = {
+  #    source  = "registry.terraform.io/local/ibmverify"
+  #    version = "0.0.1"
+  #  }
+  #  time = {
+  #    source = "hashicorp/time"
+  #  }
+  #}
 }
 
 # Variables
