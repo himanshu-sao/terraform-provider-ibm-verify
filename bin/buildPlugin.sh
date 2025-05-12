@@ -26,7 +26,8 @@ sleep 0.5
 rm -rv "$PLUGIN_LOCAL_PATH"
 
 echo "$(tput setaf 3) #####   Building the plugin   #####  $(tput sgr0)"
-go mod init github.com/IBM-Verify/terraform-provider-ibm-verify && go mod tidy && go build -o "$PLUGIN_LOCAL_PATH" ./cmd
+#go mod init github.com/IBM-Verify/terraform-provider-ibm-verify && \
+go mod tidy && go build -o "$PLUGIN_LOCAL_PATH" ./cmd
 
 # Ensure the target directory exists
 mkdir -p "$PLUGIN_INSTALL_DIR"
